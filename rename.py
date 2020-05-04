@@ -4,7 +4,7 @@ import shutil
   
 # change dest and source to you own directory
 # don't forget to put '/' at the end of dest
-dest = ''
+dest = 'filtered/'
 
 source=''
 
@@ -31,7 +31,7 @@ for i in range(0,sheet.ncols):
     if(isbn_col_name==sheet.cell_value(0,i)):
         isbn_col_index = i
         break
-
+image_col_index=image_col_index+1
 for i in range(0,sheet.nrows):
     #these two if statements are here to copy the renamed files (from source) to a new filder (dest)
     # so basically you have to run this twice :D
@@ -39,9 +39,9 @@ for i in range(0,sheet.nrows):
         shutil.copyfile(sheet.cell_value(i,isbn_col_index).strip()+'.jpg', dest+"".join(i for i in (sheet.cell_value(i,isbn_col_index).strip()) if i.isdigit())+'.jpg')
     if(sheet.cell_value(i,isbn_col_index).strip()!="" and os.path.exists(sheet.cell_value(i,isbn_col_index).strip()+'.png')):
         shutil.copyfile(sheet.cell_value(i,isbn_col_index).strip()+'.jpg', dest+"".join(i for i in (sheet.cell_value(i,isbn_col_index).strip()) if i.isdigit())+'.png')
-    if(os.path.exists(sheet.cell_value(i,image_col_index)+'.jpg' and sheet.cell_value(i,image_col_index).strip()!='') and not os.path.exists(sheet.cell_value(i,isbn_col_index).strip()+'.jpg')):
+    if((os.path.exists(sheet.cell_value(i,image_col_index).strip()+'.jpg')) and (sheet.cell_value(i,image_col_index).strip()!='') and not (os.path.exists(sheet.cell_value(i,isbn_col_index).strip()+'.jpg'))):
         os.rename(sheet.cell_value(i,image_col_index).strip()+'.jpg',sheet.cell_value(i,isbn_col_index).strip().replace('/','')+'.jpg')
-    if(os.path.exists(sheet.cell_value(i,image_col_index)+'.png' and sheet.cell_value(i,image_col_index).strip()!='') and not os.path.exists(sheet.cell_value(i,isbn_col_index).strip()+'.png')):
+    if((os.path.exists(sheet.cell_value(i,image_col_index).strip()+'.png')) and (sheet.cell_value(i,image_col_index).strip()!='') and not (os.path.exists(sheet.cell_value(i,isbn_col_index).strip()+'.png'))):
         os.rename(sheet.cell_value(i,image_col_index).strip()+'.png',sheet.cell_value(i,isbn_col_index).strip().replace('/','')+'.png')
 
 
